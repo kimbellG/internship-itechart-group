@@ -18,7 +18,7 @@ func main() {
 
 	p, err := filepath.Abs(*startDirectory)
 	if err != nil {
-		panic(err)
+		log.Fatalf("tree: %v", err)
 	}
 
 	fmt.Printf("%v\n", p)
