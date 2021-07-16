@@ -10,18 +10,13 @@ import (
 
 func main() {
 	if err := checkInputFigure(); err != nil {
-		log.Fatalf("calculator: %v", err)
+		log.Fatalf("calculator: %v\n", err)
 	}
 
-	var volume figure.FigureVolume
-	switch os.Args[1] {
-
-	case "cube":
-		volume = cubeVolume()
-	case "sphere":
-		volume = sphereVolume()
-	case "pyramid":
-		volume = pyramidVolume()
+	volume, err := getVolumeForFigure(os.Args[1])
+	if err != nil {
+		fmt.Printf("calculator: %v\n", err)
+		os.Exit(1)
 	}
 
 	fmt.Println(volume)
@@ -33,4 +28,18 @@ func checkInputFigure() error {
 	}
 
 	return nil
+}
+
+func getVolumeForFigure(fig string) (figure.FigureVolume, error) {
+	switch os.Args[1] {
+
+	case "cube":
+		return cubeVolume(), nil
+	case "sphere":
+		return sphereVolume(), nil
+	case "pyramid":
+		return pyramidVolume(), nil
+	default:
+		return figure.FigureVolume{}, fmt.Errorf("%v isn't supported", fig)
+	}
 }
