@@ -46,15 +46,15 @@ func TestParseOneCmd(t *testing.T) {
 func TestAllCmd(t *testing.T) {
 	testInfos := []struct {
 		input string
-		want  []cmdInformation
+		want  []CMDInformation
 	}{
 		{
 			"sort -c",
-			[]cmdInformation{{"sort", []string{"-c"}, ""}},
+			[]CMDInformation{{"sort", []string{"-c"}, ""}},
 		},
 		{
 			"sort -c | awk abde | test -a -s",
-			[]cmdInformation{{"sort", []string{"-c"}, "|"}, {"awk", []string{"abde"}, "|"}, {"test", []string{"-a", "-s"}, ""}},
+			[]CMDInformation{{"sort", []string{"-c"}, "|"}, {"awk", []string{"abde"}, "|"}, {"test", []string{"-a", "-s"}, ""}},
 		},
 	}
 

@@ -7,41 +7,41 @@ import (
 
 const operators = "|&>"
 
-type cmdInformation struct {
+type CMDInformation struct {
 	name              string
 	args              []string
 	pipelineOperation string
 }
 
-func parseCmd(cmd string, pipeOperation string) (cmdInformation, error) {
+func parseCmd(cmd string, pipeOperation string) (CMDInformation, error) {
 	partsOfCmd := strings.Fields(cmd)
 
 	//TODO: create function for assert combinations
 	if !strings.ContainsAny(pipeOperation, operators) && pipeOperation != "" {
-		return cmdInformation{}, fmt.Errorf("operator %v isn't valid", pipeOperation)
+		return CMDInformation{}, fmt.Errorf("operator %v isn't valid", pipeOperation)
 	}
 
-	return cmdInformation{
+	return CMDInformation{
 		name:              partsOfCmd[0],
 		args:              partsOfCmd[1:len(partsOfCmd)],
 		pipelineOperation: pipeOperation,
 	}, nil
 }
 
-func (i cmdInformation) Name() string {
+func (i CMDInformation) Name() string {
 	return i.name
 }
 
-func (i cmdInformation) Args() string {
-	return i.name + strings.Join(i.args, " ")
+func (i CMDInformation) Args() []string {
+	return i.args
 }
 
-func (i cmdInformation) PipelineOperation() string {
+func (i CMDInformation) PipelineOperation() string {
 	return i.pipelineOperation
 }
 
-func Parse(input string) ([]cmdInformation, error) {
-	cmds := make([]cmdInformation, 0, 2)
+func Parse(input string) ([]CMDInformation, error) {
+	cmds := make([]CMDInformation, 0, 2)
 
 	for end := strings.IndexAny(input, operators); end != -1; end = strings.IndexAny(input, operators) {
 		startNextCmd := end + strings.Index(input[end:], " ") + 1

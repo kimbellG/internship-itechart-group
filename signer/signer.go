@@ -8,7 +8,14 @@ import (
 )
 
 func main() {
-	output := pipeline.Execute(strings.Join(os.Args[1:], " "))
+	pipe, err := pipeline.NewPipeline(strings.Join(os.Args[1:], " "))
+	if err != nil {
+		fmt.Printf("signer: %v\n", err)
+		os.Exit(1)
+	}
 
-	fmt.Println(output)
+	if err := pipe.Execute(strings.Join(os.Args[1:], " ")); err != nil {
+		fmt.Printf("signer: %v\n", err)
+		os.Exit(1)
+	}
 }
