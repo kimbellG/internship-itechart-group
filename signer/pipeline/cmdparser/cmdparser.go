@@ -17,7 +17,7 @@ func parseCmd(cmd string, pipeOperation string) (cmdInformation, error) {
 	partsOfCmd := strings.Fields(cmd)
 
 	//TODO: create function for assert combinations
-	if !strings.ContainsAny(pipeOperation, operators) {
+	if !strings.ContainsAny(pipeOperation, operators) && pipeOperation != "" {
 		return cmdInformation{}, fmt.Errorf("operator %v isn't valid", pipeOperation)
 	}
 
@@ -28,15 +28,15 @@ func parseCmd(cmd string, pipeOperation string) (cmdInformation, error) {
 	}, nil
 }
 
-func (i cmdInformation) getName() string {
+func (i cmdInformation) Name() string {
 	return i.name
 }
 
-func (i cmdInformation) getArgs() string {
+func (i cmdInformation) Args() string {
 	return i.name + strings.Join(i.args, " ")
 }
 
-func (i cmdInformation) getPipelineOperation() string {
+func (i cmdInformation) PipelineOperation() string {
 	return i.pipelineOperation
 }
 
@@ -54,5 +54,10 @@ func Parse(input string) ([]cmdInformation, error) {
 		input = input[startNextCmd:]
 	}
 
-	return cmds, nil
+	lastCmd, err := parseCmd(input[0:], "")
+	if err != nil {
+		return nil, fmt.Errorf("parse input command: %v", err)
+	}
+
+	return append(cmds, lastCmd), nil
 }
