@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"internship-itechart-group/signer/pipeline"
 	"os"
@@ -8,7 +9,8 @@ import (
 )
 
 func main() {
-	pipe, err := pipeline.NewPipeline(strings.Join(os.Args[1:], " "))
+	flag.Parse()
+	pipe, err := pipeline.NewPipeline(strings.Join(flag.Args(), " "))
 	if err != nil {
 		fmt.Printf("signer: %v\n", err)
 		os.Exit(1)
