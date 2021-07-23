@@ -41,21 +41,29 @@ func (p *Pipeline) Execute() error {
 		log.Printf("Output of %v:\n %s", cmdInfo.Name(), cmdOutput)
 
 		p.wg.Add(1)
-		go func(index int, output []byte) {
+		go func() {
 			defer p.wg.Done()
-			hash := string(outhash.PrintHash(index, cmdOutput))
-			p.Lock()
-			defer p.Unlock()
-
-			p.combineHash += "_" + hash
-
-		}(i, getCopyOfOutput(cmdOutput))
+			p.PrintHashOfOutput(i, getCopyOfOutput(cmdOutput))
+		}()
 	}
 
 	p.wg.Wait()
 
 	fmt.Printf("Combine Result: %v\n", p.combineHash[1:])
 	return nil
+}
+
+func (p *Pipeline) PrintHashOfOutput(indexOfProgramm int, output []byte) {
+	hash := string(outhash.PrintHash(indexOfProgramm, output))
+
+	p.addPartOfCombineHash(hash)
+}
+
+func (p *Pipeline) addPartOfCombineHash(hash string) {
+	p.Lock()
+	defer p.Unlock()
+
+	p.combineHash += "_" + hash
 }
 
 func execute(name string, stdinData []byte, args ...string) ([]byte, error) {
