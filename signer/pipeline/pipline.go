@@ -3,7 +3,6 @@ package pipeline
 import (
 	"fmt"
 	"internship-itechart-group/signer/pipeline/cmdparser"
-	"internship-itechart-group/signer/pipeline/outhash"
 	"io"
 	"log"
 	"os/exec"
@@ -12,14 +11,17 @@ import (
 
 type Pipeline struct {
 	commandsInformation []cmdparser.CMDInformation
-	combineHash         string
-	funcForOutput       func(nameOfProgramm string, output []byte)
+	pr                  Printer
 
 	sync.Mutex
 	wg sync.WaitGroup
 }
 
-func NewPipeline(input string, funcForOutput func(nameOfProgramm string, output []byte)) (*Pipeline, error) {
+type Printer interface {
+	Print(name string, output []byte)
+}
+
+func NewPipeline(input string, pr Printer) (*Pipeline, error) {
 	cmdInfos, err := cmdparser.Parse(input)
 	if err != nil {
 		return nil, fmt.Errorf("parse commands: %v", err)
@@ -27,53 +29,31 @@ func NewPipeline(input string, funcForOutput func(nameOfProgramm string, output 
 
 	return &Pipeline{
 		commandsInformation: cmdInfos,
-		funcForOutput:       funcForOutput,
+		pr:                  pr,
 	}, nil
 
-}
-
-func (p *Pipeline) CombineHash() string {
-	if p.combineHash == "" {
-		return ""
-	}
-
-	return p.combineHash[1:]
 }
 
 func (p *Pipeline) Execute() error {
 	cmdOutput, err := []byte{}, error(nil)
 
-	for i, cmdInfo := range p.commandsInformation {
+	for _, cmdInfo := range p.commandsInformation {
 		cmdOutput, err = execute(cmdInfo.Name(), cmdOutput, cmdInfo.Args()...)
 		if err != nil {
 			return fmt.Errorf("execute %v: %v", cmdInfo.Name(), err)
 		}
-		log.Printf("Output of %v:\n %s", cmdInfo.Name(), cmdOutput)
 
 		p.wg.Add(1)
-		go func() {
+		go func(nameOfProgramm string, output []byte) {
 			defer p.wg.Done()
-			p.PrintHashOfOutput(i, getCopyOfOutput(cmdOutput))
-		}()
+			p.pr.Print(nameOfProgramm, output)
+
+		}(cmdInfo.Name(), getCopyOfOutput(cmdOutput))
 	}
 
 	p.wg.Wait()
 
-	fmt.Printf("Combine Result: %v\n", p.CombineHash())
 	return nil
-}
-
-func (p *Pipeline) PrintHashOfOutput(indexOfProgramm int, output []byte) {
-	hash := string(outhash.PrintHash(indexOfProgramm, output))
-
-	p.addPartOfCombineHash(hash)
-}
-
-func (p *Pipeline) addPartOfCombineHash(hash string) {
-	p.Lock()
-	defer p.Unlock()
-
-	p.combineHash += "_" + hash
 }
 
 func execute(name string, stdinData []byte, args ...string) ([]byte, error) {
@@ -107,7 +87,7 @@ func closeWriter(in io.WriteCloser) {
 }
 
 func getCopyOfOutput(output []byte) []byte {
-	cpOfOutput := []byte{}
+	cpOfOutput := make([]byte, len(output))
 	copy(cpOfOutput, output)
 	return cpOfOutput
 }

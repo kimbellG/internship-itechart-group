@@ -1,4 +1,4 @@
-package outhash
+package hashout
 
 import (
 	"crypto/md5"
@@ -13,22 +13,22 @@ type multiHash struct {
 	hash              uint32
 }
 
-func PrintHash(indexOfProgramm int, data []byte) string {
+func printHash(name string, data []byte) string {
 
-	single := printSingleHash(indexOfProgramm, data)
-	result := printMultiHash(indexOfProgramm, single)
+	single := printSingleHash(name, data)
+	result := printMultiHash(name, single)
 
-	fmt.Printf("%d MultiHash result: %v\n", indexOfProgramm, result)
+	fmt.Printf("%s MultiHash result: %v\n", name, result)
 
 	return result
 }
 
-func printSingleHash(index int, data []byte) string {
+func printSingleHash(name string, data []byte) string {
 	md5Hash, crcMd5Hash, crcHash := calculateSingleHash(data)
 
 	single := fmt.Sprintf("%d~%d", crcHash, crcMd5Hash)
-	fmt.Printf("%d SingleHash mda5(data) %x SingleHash crc32(mda5(data)) %d SingleHash crc32(data) %d Single Hash result: %s\n",
-		index, md5Hash, crcMd5Hash, crcHash, single)
+	fmt.Printf("%s SingleHash mda5(data) %x SingleHash crc32(mda5(data)) %d SingleHash crc32(data) %d Single Hash result: %s\n",
+		name, md5Hash, crcMd5Hash, crcHash, single)
 
 	return single
 }
@@ -49,35 +49,6 @@ func calculateSingleHash(data []byte) (md5Hash []byte, crcMd5Hash uint32, crcHas
 	wg.Wait()
 
 	return
-}
-
-func printMultiHash(index int, singleHash string) string {
-	const numberOfIter = 6
-	var wg sync.WaitGroup
-	wg.Add(numberOfIter)
-
-	multi := make(chan multiHash)
-	for i := 0; i < numberOfIter; i++ {
-		go func(iterNumber int) {
-			defer wg.Done()
-			multi <- multiHash{iterNumber, sumIterOfMultiHash(iterNumber, []byte(singleHash))}
-		}(i)
-	}
-	go func() {
-		wg.Wait()
-		close(multi)
-	}()
-
-	result := &outputBuffer{
-		single:          singleHash,
-		indexOfProgramm: index,
-	}
-
-	for hash := range multi {
-		result.printHash(hash)
-	}
-
-	return result.result
 }
 
 var ticker = time.NewTicker(time.Millisecond * 10)
@@ -103,6 +74,35 @@ func isFree() bool {
 func sumCrc32(input []byte) uint32 {
 	time.Sleep(time.Second)
 	return crc32.ChecksumIEEE(input)
+}
+
+func printMultiHash(name string, singleHash string) string {
+	const numberOfIter = 6
+	var wg sync.WaitGroup
+	wg.Add(numberOfIter)
+
+	multi := make(chan multiHash)
+	for i := 0; i < numberOfIter; i++ {
+		go func(iterNumber int) {
+			defer wg.Done()
+			multi <- multiHash{iterNumber, sumIterOfMultiHash(iterNumber, []byte(singleHash))}
+		}(i)
+	}
+	go func() {
+		wg.Wait()
+		close(multi)
+	}()
+
+	result := &outputBuffer{
+		single:         singleHash,
+		nameOfProgramm: name,
+	}
+
+	for hash := range multi {
+		result.printHash(hash)
+	}
+
+	return result.result
 }
 
 func sumIterOfMultiHash(th int, input []byte) uint32 {

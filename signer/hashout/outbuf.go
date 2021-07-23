@@ -1,4 +1,4 @@
-package outhash
+package hashout
 
 import (
 	"fmt"
@@ -7,11 +7,12 @@ import (
 
 type outputBuffer struct {
 	sync.Mutex
-	result          string
-	currentHash     int
-	single          string
-	indexOfProgramm int
-	buffer          []multiHash
+
+	result         string
+	currentHash    int
+	single         string
+	nameOfProgramm string
+	buffer         []multiHash
 }
 
 func (o *outputBuffer) printHash(hash multiHash) {
@@ -30,7 +31,7 @@ func (o *outputBuffer) printHash(hash multiHash) {
 }
 
 func (o *outputBuffer) printMultiHash(index int, hash uint32) {
-	fmt.Printf("%d MultuHash %d %s %d\n", o.indexOfProgramm, index, o.single, hash)
+	fmt.Printf("%s MultuHash %d %s %d\n", o.nameOfProgramm, index, o.single, hash)
 	o.result = fmt.Sprintf("%s%d", o.result, hash)
 	o.currentHash++
 }
