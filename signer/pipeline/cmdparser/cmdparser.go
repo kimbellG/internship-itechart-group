@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-const operators = "|&>"
+const operators = "|"
 
 type CMDInformation struct {
 	name              string
@@ -15,6 +15,10 @@ type CMDInformation struct {
 
 func parseCmd(cmd string, pipeOperation string) (CMDInformation, error) {
 	partsOfCmd := strings.Fields(cmd)
+
+	if cmd == "" {
+		return CMDInformation{}, fmt.Errorf("command is not defined")
+	}
 
 	//TODO: create function for assert combinations
 	if !strings.ContainsAny(pipeOperation, operators) && pipeOperation != "" {
