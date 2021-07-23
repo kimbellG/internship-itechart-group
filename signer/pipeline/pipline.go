@@ -30,7 +30,7 @@ func NewPipeline(input string) (*Pipeline, error) {
 
 }
 
-func (p *Pipeline) Execute(input string) error {
+func (p *Pipeline) Execute() error {
 	cmdOutput, err := []byte{}, error(nil)
 
 	for i, cmdInfo := range p.commandsInformation {

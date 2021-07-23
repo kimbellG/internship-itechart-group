@@ -16,7 +16,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	if err := pipe.Execute(strings.Join(os.Args[1:], " ")); err != nil {
+	if err := pipe.Execute(); err != nil {
 		fmt.Printf("signer: %v\n", err)
 		os.Exit(1)
 	}
