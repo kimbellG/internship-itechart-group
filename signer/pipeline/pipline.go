@@ -13,12 +13,13 @@ import (
 type Pipeline struct {
 	commandsInformation []cmdparser.CMDInformation
 	combineHash         string
+	funcForOutput       func(nameOfProgramm string, output []byte)
 
 	sync.Mutex
 	wg sync.WaitGroup
 }
 
-func NewPipeline(input string) (*Pipeline, error) {
+func NewPipeline(input string, funcForOutput func(nameOfProgramm string, output []byte)) (*Pipeline, error) {
 	cmdInfos, err := cmdparser.Parse(input)
 	if err != nil {
 		return nil, fmt.Errorf("parse commands: %v", err)
@@ -26,8 +27,17 @@ func NewPipeline(input string) (*Pipeline, error) {
 
 	return &Pipeline{
 		commandsInformation: cmdInfos,
+		funcForOutput:       funcForOutput,
 	}, nil
 
+}
+
+func (p *Pipeline) CombineHash() string {
+	if p.combineHash == "" {
+		return ""
+	}
+
+	return p.combineHash[1:]
 }
 
 func (p *Pipeline) Execute() error {
@@ -49,7 +59,7 @@ func (p *Pipeline) Execute() error {
 
 	p.wg.Wait()
 
-	fmt.Printf("Combine Result: %v\n", p.combineHash[1:])
+	fmt.Printf("Combine Result: %v\n", p.CombineHash())
 	return nil
 }
 
