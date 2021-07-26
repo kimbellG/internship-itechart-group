@@ -6,8 +6,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/internship-itechart-group/signer/hashout"
-	"github.com/internship-itechart-group/signer/pipeline"
+	"github.com/kimbellG/internship-itechart-group/signer/hashout"
+	"github.com/kimbellG/internship-itechart-group/signer/pipeline"
 )
 
 func main() {

@@ -7,7 +7,7 @@ import (
 	"os/exec"
 	"sync"
 
-	"github.com/internship-itechart-group/signer/pipeline/cmdparser"
+	"github.com/kimbellG/internship-itechart-group/signer/pipeline/cmdparser"
 )
 
 type Pipeline struct {
