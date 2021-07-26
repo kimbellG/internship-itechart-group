@@ -36,7 +36,8 @@ func NewPipeline(input string, pr Printer) (*Pipeline, error) {
 }
 
 func (p *Pipeline) Execute() error {
-	cmdOutput, err := []byte{}, error(nil)
+	var cmdOutput = []byte{}
+	var err error
 
 	for _, cmdInfo := range p.commandsInformation {
 		cmdOutput, err = execute(cmdInfo.Name(), cmdOutput, cmdInfo.Args()...)
