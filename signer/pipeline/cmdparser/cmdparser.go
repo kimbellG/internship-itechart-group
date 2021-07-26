@@ -27,7 +27,7 @@ func parseCmd(cmd string, pipeOperation string) (CMDInformation, error) {
 
 	return CMDInformation{
 		name:              partsOfCmd[0],
-		args:              partsOfCmd[1:len(partsOfCmd)],
+		args:              partsOfCmd[1:],
 		pipelineOperation: pipeOperation,
 	}, nil
 }
