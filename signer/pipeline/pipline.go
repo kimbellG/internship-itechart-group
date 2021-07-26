@@ -2,11 +2,12 @@ package pipeline
 
 import (
 	"fmt"
-	"internship-itechart-group/signer/pipeline/cmdparser"
 	"io"
 	"log"
 	"os/exec"
 	"sync"
+
+	"github.com/internship-itechart-group/signer/pipeline/cmdparser"
 )
 
 type Pipeline struct {

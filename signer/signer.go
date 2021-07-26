@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"internship-itechart-group/signer/hashout"
-	"internship-itechart-group/signer/pipeline"
 	"os"
 	"strings"
+
+	"github.com/internship-itechart-group/signer/hashout"
+	"github.com/internship-itechart-group/signer/pipeline"
 )
 
 func main() {
