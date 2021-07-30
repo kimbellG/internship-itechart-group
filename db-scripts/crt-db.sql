@@ -62,3 +62,17 @@ CREATE TABLE IF NOT EXISTS Users (
 	role Roles NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS DrugsOfClinics (
+	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	clinic_id uuid REFERENCES clinics,
+	drug_id uuid REFERENCES DrugUnits
+);
+
+CREATE TABLE IF NOT EXISTS PatientsOfClinics (
+	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	clinic_id uuid REFERENCES clinics,
+	patient_id uuid REFERENCES Patients
+);	
+
+
+
