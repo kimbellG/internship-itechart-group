@@ -17,10 +17,9 @@ CREATE TABLE IF NOT EXISTS DrugType (
 CREATE TABLE IF NOT EXISTS DrugUnits (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	name varchar(250) NOT NULL UNIQUE,
-	drug_type integer REFERENCES DrugType,
-	data_in date NOT NULL DEFAULT current_date,
+	drug_type integer NOT NULL REFERENCES DrugType,
+	date_in date NOT NULL DEFAULT current_date,
 	storage_life interval,
-	location varchar(100) NOT NULL,
 	cost money NOT NULL,
 	manual text
 );
@@ -38,17 +37,17 @@ CREATE TABLE IF NOT EXISTS Gender (
 CREATE TABLE IF NOT EXISTS Patients (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	name varchar(200) NOT NULL,
-	date_of_visit timestamp NOT NULL DEFAULT current_timestamp,
 	status integer NOT NULL REFERENCES Status,
 	gender integer NOT NULL REFERENCES Gender,
+	drug_type integer REFERENCES DrugType NOT NULL,
 	start_date timestamp NOT NULL DEFAULT current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS Visits (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	patient uuid REFERENCES Patients,
-	clinic uuid REFERENCES clinics,
-	drug uuid REFERENCES DrugUnits,
+	patient uuid NOT NULL REFERENCES Patients,
+	clinic uuid NOT NULL REFERENCES clinics,
+	drug uuid NOT NULL REFERENCES DrugUnits,
 	visit_date timestamp NOT NULL DEFAULT current_timestamp,
 	reason text NOT NULL
 );
@@ -64,14 +63,14 @@ CREATE TABLE IF NOT EXISTS Users (
 
 CREATE TABLE IF NOT EXISTS DrugsOfClinics (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	clinic_id uuid REFERENCES clinics,
-	drug_id uuid REFERENCES DrugUnits
+	clinic_id uuid NOT NULL REFERENCES clinics,
+	drug_id uuid NOT NULL REFERENCES DrugUnits
 );
 
 CREATE TABLE IF NOT EXISTS PatientsOfClinics (
 	id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	clinic_id uuid REFERENCES clinics,
-	patient_id uuid REFERENCES Patients
+	clinic_id uuid NOT NULL REFERENCES clinics,
+	patient_id uuid NOT NULL REFERENCES Patients
 );	
 
 
