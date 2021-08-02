@@ -86,19 +86,19 @@ INSERT INTO Patients (name, status, gender, drug_type)
 	
 INSERT INTO PatientsOfClinics (clinic_id, patient_id)
 	SELECT c.id, p.id FROM clinics AS c, Patients AS p
-	WHERE c.name = 'St. Mary Hospital' AND c.name = 'Steve Jobs';
+	WHERE c.name = 'St. Mary Hospital' AND p.name = 'Steve Jobs';
 
 INSERT INTO PatientsOfClinics (clinic_id, patient_id)
 	SELECT c.id, p.id FROM clinics AS c, Patients AS p
-	WHERE c.name = 'Cincinnati Hospital' AND c.name = 'Rob Pike';
+	WHERE c.name = 'Cincinnati Hospital' AND p.name = 'Rob Pike';
 
 INSERT INTO PatientsOfClinics (clinic_id, patient_id)
 	SELECT c.id, p.id FROM clinics AS c, Patients AS p
-	WHERE c.name = 'The Johns Hopkins Hospital' AND c.name = 'Ken Thompson';
+	WHERE c.name = 'The Johns Hopkins Hospital' AND p.name = 'Ken Thompson';
 
 INSERT INTO PatientsOfClinics (clinic_id, patient_id)
 	SELECT c.id, p.id FROM clinics AS c, Patients AS p
-	WHERE c.name = 'St. Mary Hospital' AND c.name = 'Bill Gates';
+	WHERE c.name = 'St. Mary Hospital' AND p.name = 'Bill Gates';
 
 
 
@@ -117,7 +117,7 @@ INSERT INTO DrugsOfClinics (clinic_id, drug_id)
 
 INSERT INTO DrugsOfClinics (clinic_id, drug_id)
 	SELECT c.id, d.id FROM clinics AS c, DrugUnits AS d
-	WHERE c.name = 'SMD Anderson Center' AND d.name = 'Армин';
+	WHERE c.name = 'MD Anderson Center' AND d.name = 'Армин';
 
 
 
@@ -125,30 +125,30 @@ INSERT INTO DrugsOfClinics (clinic_id, drug_id)
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'St. Mary Hospital' AND c.name = 'Steve Jobs' AND d.name = 'Бендазол';
+	WHERE c.name = 'St. Mary Hospital' AND p.name = 'Steve Jobs' AND d.name = 'Бендазол';
 
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'Cincinnati Hospital' AND c.name = 'Rob Pike' and d.name = 'Антропин';
+	WHERE c.name = 'Cincinnati Hospital' AND p.name = 'Rob Pike' and d.name = 'Антропин';
 
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'The Johns Hopkins Hospital' AND c.name = 'Ken Thompson' AND d.name = 'Пиритинол';
+	WHERE c.name = 'The Johns Hopkins Hospital' AND p.name = 'Ken Thompson' AND d.name = 'Пиритинол';
 
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'St. Mary Hospital' AND c.name = 'Bill Gates' AND d.name = 'Бендазол';
+	WHERE c.name = 'St. Mary Hospital' AND p.name = 'Bill Gates' AND d.name = 'Бендазол';
 
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'The Johns Hopkins Hospital' AND c.name = 'Ken Thompson' AND d.name = 'Пиритинол';
+	WHERE c.name = 'The Johns Hopkins Hospital' AND p.name = 'Ken Thompson' AND d.name = 'Пиритинол';
 
 INSERT INTO Visits (patient, clinic, drug, reason) 
 	SELECT p.id, c.id, d.id, 'Some reason' 
 	FROM Patients AS p, clinics AS c, DrugUnits As d
-	WHERE c.name = 'St. Mary Hospital' AND c.name = 'Bill Gates' AND d.name = 'Бендазол';
+	WHERE c.name = 'St. Mary Hospital' AND p.name = 'Bill Gates' AND d.name = 'Бендазол';
 
