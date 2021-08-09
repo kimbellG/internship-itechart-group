@@ -1,0 +1,296 @@
+openapi: "3.0.2"
+info:
+  title: "tournament service"
+  description: "service of tournament control"
+  version: "0.1.0"
+servers:
+  - url: "localhost:8080"
+paths:
+  /user:
+    post:
+      tags:
+      - "User Control"
+      summary: "Create user"
+      operationId: "CreateUser"
+      parameters:
+      - name: "body"
+        in: "body"
+        description: "user placed that we needed add to the system"
+        required: true
+        schema:
+          title: User
+          type: object
+          properties:
+            name:
+              type: string
+      responses:
+        201:
+          description: "User created"
+          content:
+            application/json:
+              schema:
+                type: object
+                title: UserAnswer
+                properties:
+                  id:
+                    type: string
+        400:
+          description: "Invalid User"
+  /user/{id}:
+    get:
+      tags:
+      - "User Control"
+      summary: "Get information about users"
+      operationId: GetUser
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "Set user id of return"
+        schema:
+          type: string
+      responses:
+        200:
+          description: "Success. User exists"
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/User"
+        400:
+          description: "Invalid id of user"
+        404: 
+          description: "User not found"
+    delete:
+      tags:
+      - "User Control"
+      summary: "Remove user from system"
+      operationId: "removeUser"
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "Set user id of return"
+        schema:
+          type: string
+      responses:
+        204:
+          description: "user has removed from system"
+        400:
+          description: "invalid id supplied"
+        404:
+          description: "user not found"
+  /user/{id}/take:
+    post:
+      tags:
+      - "User Control"
+      summary: "Take user bonus points"
+      operationId: TakeUserTokens
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Set user id of return"
+          schema:
+            type: string
+        - name: body
+          in: body
+          required: true
+          description: "Set number of user points"
+          schema:
+            $ref: "#/definitions/Points"
+      responses:
+        200:
+          description: "Points took from user"
+        404:
+          description: "User not found"
+        400:
+          description: "Invalid user id or request parametrs"
+  /user/{id}/fund:
+    post:
+      tags:
+      - "User Control"
+      summary: "Add bouns points to user"
+      operationId: AddUserTokens
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Set user id of return"
+          schema:
+            type: string
+        - name: body
+          in: body
+          required: true
+          description: "Set number of user points"
+          schema:
+            $ref: "#/definitions/Points"
+      responses:
+        200:
+          description: "Points added to user"
+        404:
+          description: "User not found"
+        400:
+          description: "Invalid user id or request parametrs"
+  /tournament:
+    post:
+      tags:
+      - "Tournament Control"
+      summary: "Create tournament"
+      operationId: CreateTournament
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: "tournament placed that we needed add to system"
+          schema:
+            type: object
+            title: TournamentInput
+            properties:
+              name:
+                type: string
+              deposit:
+                type: number
+      responses:
+        201:
+          description: "Tournament created"
+          content:
+            application/json:
+              schema:
+                type: object
+                title: TournametCreated
+                properties:
+                  id:
+                    type: string
+        400:
+          description: "invalid tournamet info"
+  /tournament/{id}:
+    get:
+      tags:
+      - "Tournament Control"
+      summary: "Get information about tournamet"
+      operationId: GetTournament
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Set id of return tournament"
+          schema:
+            type: string
+      responses:
+        200:
+          description: "Successful"
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Tournament"
+        400:
+          description: "Tournament not found"
+    delete:
+      tags:
+      - "Tournament Control"
+      summary: "Cancel tournament"
+      operationId: CancelTournament
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: "Set id of return tournament"
+          schema:
+            type: string
+      responses:
+        204:
+          description: "Tournament canceled"
+        404:
+          description: "Tournament not found"
+        400:
+          description: "Invalid id of tournament"
+        
+  /tournament/{id}/join:
+    post:
+      tags:
+      - "Tournament Control"
+      summary: "Join tournament"
+      operationId: JoinTournament
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "Set id of return tournament"
+        schema:
+          type: string
+      - name: body
+        in: body
+        required: true
+        description: "Inforamation about joined user"
+        schema:
+          type: object
+          properties:
+            userId:
+              type: number
+      responses:
+        200:
+          description: "User joined to tournament"
+        404:
+          description: "Tournament not found"
+        400:
+          description: "Invalid user"
+  /tournament/{id}/finish:
+    post:
+      tags:
+      - "Tournament Control"
+      summary: "Finish tournament"
+      operationId: FinishTournament
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: "Set id of return tournament"
+        schema:
+          type: string
+      responses:
+        200:
+          description: "Tournament ended"
+        404:
+          description: "Tournament not found"
+        400:
+          description: "Tournament id isn't valid"
+      
+definitions:
+  User:
+    title: User
+    type: object
+    properties:
+      id:
+        type: string
+        description: id
+      name:
+        type: string
+        description: "name of user"
+      balance:
+        type: number
+        description: "balance of user"
+  Points:
+    title: Points
+    type: object
+    properties:
+      points:
+        type: integer
+  Tournament:
+    title: Tournament
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      deposit:
+        type: number
+      prize:
+        type: number
+      users:
+        type: array
+        items:
+          type: integer
+      winner:
+        type: number
+          
