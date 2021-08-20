@@ -1,0 +1,25 @@
+Hello Customer
+
+I'm writing in connection with finding a new framework for processing the large amount of data.
+I found the best one in my opinion and I am ready to offer "Name of Framework".
+
+I suggested a new framework because our project needs to grow up in the speed of data processing.
+This framework is what we need. He provides:
+	* High-performance data pipelines.
+	* Streaming analytics.
+	* Data integration.
+	* Mission-critical applications.
+ 
+He will allow us:
+	* To easily scale out project.
+	* Get full analytics about status of application.
+	* Speed up data processing several times.
+
+I've looked through the feedback on the frameword ans it's very impressive(www.redit.com). 
+They have got a full documantation and lagre users community. I've attached it.
+
+I look forward to and early reply, and am sure that there is a good choice for out problem.
+
+
+
+

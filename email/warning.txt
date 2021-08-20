@@ -1,0 +1,9 @@
+Hi
+
+Out team doesn't have time to finish a new feature of our application due to the fact that a lot of time was spent
+for testing and debugging
+At the moment, 80% have been made. All basic function implemented, but we need little time to fully refine them.
+I understand that if we do not fulfill the schedule, we will break the deadlines, but I'd be grateful if you could to extend the deadline for delivery 
+for quality assurance.
+
+I hope this clarifies the situationm, Artyom

@@ -1,0 +1,7 @@
+Hello
+
+I'm writing in relation to your recent complatint. I's so sorry that i made obvious mistakes in building our application.
+I completely understand that this is unacceptable and slows down of developing.
+I have looked into the matter and now i'm solving the issue. Next time i will building before push my changes to an external developmant branch
+
+Once again, I hope you will accept my apologies for the inconvenience caused, Artyom.
