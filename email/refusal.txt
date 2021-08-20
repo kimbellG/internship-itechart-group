@@ -1,0 +1,12 @@
+Hello Customer.
+
+I have fully considered your offer and new functionality that you offered will improve our application.
+
+But to my regret it's not ready and has not been tested. Now if we will release this that we will get a lot of
+bug report and poor ratings on various sites. 
+
+I suggest we wait for a while until QAs will confirm out it.
+
+
+
+
